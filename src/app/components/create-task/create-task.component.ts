@@ -59,6 +59,11 @@ export class CreateTaskComponent implements OnInit {
     if (skill) {
       this.skills.push(skill);
       this.skillControl.reset();
+    }else {
+      this.snackBar.open('The skill cannot be empty', 'Close', {
+        duration: 2000,
+        verticalPosition: 'bottom',
+      });
     }
   }
 

@@ -17,10 +17,13 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { HomeComponent } from './components/home/home/home.component';
+import { SidenavComponent } from './components/sidenav/sidenav.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
 
 
 @NgModule({
-  declarations: [AppComponent, CreateTaskComponent, HomeComponent],
+  declarations: [AppComponent, CreateTaskComponent, HomeComponent, SidenavComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -36,6 +39,8 @@ import { HomeComponent } from './components/home/home/home.component';
     MatIconModule,
     MatSnackBarModule,
     MatToolbarModule,
+    MatSidenavModule,
+    MatListModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
