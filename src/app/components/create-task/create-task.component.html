@@ -1,0 +1,125 @@
+<mat-card class="mat-card">
+  <mat-card-title class="mat-card-title">Create Task</mat-card-title>
+  <mat-card-content class="card-content">
+    <form [formGroup]="form" (ngSubmit)="saveTask()">
+      <div>
+        <mat-label>Task Name</mat-label>
+        <mat-form-field [appearance]="'outline'" class="form-title">
+          <input matInput placeholder="Task Name" formControlName="name" />
+          <mat-error *ngIf="form.get('name')?.hasError('required')">Task name is required</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-label>End Date</mat-label>
+        <mat-form-field
+          [appearance]="'outline'"
+          class="form-date"
+          [floatLabel]="'always'"
+        >
+          <input
+            matInput
+            [matDatepicker]="picker"
+            placeholder="End Date"
+            formControlName="endDate"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <h3>Asociated People</h3>
+      <div class="control-p">
+        <mat-form-field [appearance]="'outline'" class="form-p-name">
+          <input
+            matInput
+            type="text"
+            formControlName="peopleName"
+            placeholder="Full Name"
+          />
+          <mat-error *ngIf="form.get('peopleName')?.hasError('required')">Full name is required</mat-error>
+          <mat-error *ngIf="form.get('peopleName')?.hasError('minlength')">Full name must be at least 5 characters long.</mat-error>
+        </mat-form-field>
+
+        <mat-form-field [appearance]="'outline'" class="form-age">
+          <input
+            matInput
+            type="number"
+            formControlName="peopleAge"
+            placeholder="Age"
+          />
+          <mat-error *ngIf="form.get('peopleAge')?.hasError('required')">Age is required</mat-error>
+          <mat-error *ngIf="form.get('peopleAge')?.hasError('min')">Age < 18.</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="add-s-wrapper">
+        <mat-form-field [appearance]="'outline'" class="add-skill">
+          <input
+            matInput
+            type="text"
+            placeholder="Add Skill"
+            [formControl]="skillControl"
+          />
+        </mat-form-field>
+        <button
+          class="add-s-btn"
+          mat-raised-button
+          color="primary"
+          type="button"
+          (click)="addSkill()"
+        >
+          Add
+        </button>
+      </div>
+
+      <div class="drop-s-wrapper">
+        <mat-form-field [appearance]="'outline'" class="skill-s">
+          <mat-select
+            formControlName="peopleSkills"
+            (valueChange)="onChange($event)"
+          >
+            <mat-option
+              *ngFor="let skill of skills; let sindex = index"
+              [value]="sindex"
+            >
+              {{ skill }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button
+          class="drop-s-btn"
+          mat-stroked-button
+          color="primary"
+          type="button"
+          (click)="dropSkill()"
+        >
+          Drop
+        </button>
+      </div>
+
+      <div class="people-actions">
+        <button mat-raised-button (click)="savePerson()" type="button" class="save-people">
+          Save People
+        </button>
+        <div class="people-block" *ngIf="people.length > 0">
+          <ul>
+            <li class="people-li" *ngFor="let person of people; let index = index">
+              {{ person.fullName }} ({{ person.age }} years old) - Skills:
+              {{ person.skills.join(", ") }}
+              <mat-icon class="drop-d" color="warn" (click)="dropPerson(index)">delete</mat-icon>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="btn-wrapper">
+        <button mat-raised-button color="primary" type="submit">Save</button>
+        <button mat-raised-button color="warn" type="button">Cancel</button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>
