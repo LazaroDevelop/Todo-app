@@ -1,0 +1,115 @@
+.mat-card {
+  width: 400px;
+}
+.mat-card-title {
+  text-align: center;
+  padding: 15px;
+}
+.form-title {
+  width: 100%;
+}
+.form-date {
+  width: 100%;
+}
+
+h3 {
+  text-align: center;
+}
+
+.form-p-name {
+  width: 70%;
+  padding: 5px 10px 5px 0px;
+}
+
+.form-age {
+  width: 30%;
+  padding: 5px 5px 5px 0px;
+}
+
+.add-s-wrapper {
+  gap: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.add-skill {
+  width: 70%;
+}
+
+.add-s-btn {
+  width: 30%;
+  height: 56px;
+  font-size: 16px;
+}
+
+.drop-s-wrapper {
+  gap: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.skill-s {
+  width: 70%;
+}
+
+.drop-s-btn {
+  width: 30%;
+  height: 56px;
+  font-size: 16px;
+}
+
+.people-actions{
+  gap: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  margin-bottom: 20px;
+}
+
+.people-actions button{
+  width: 100%;
+  height: 52px;
+  font-size: 16px;
+}
+
+.btn-wrapper{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 100px;
+}
+
+.btn-wrapper button{
+  height: 64px;
+  font-size: 16px;
+}
+
+.people-block{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.drop-p-btn {
+  height: 56px;
+  font-size: 16px;
+}
+
+.drop-d:hover{
+  transition: ease-in-out 0.3s;
+  transform: scale(1.1);
+}
+
+.save-people{
+  width: 300px;
+}
+
+.people-li{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin: 5px;
+}
