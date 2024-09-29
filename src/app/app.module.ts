@@ -15,10 +15,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCardModule } from "@angular/material/card";
 import { MatIconModule } from "@angular/material/icon";
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { HomeComponent } from './components/home/home/home.component';
 
 
 @NgModule({
-  declarations: [AppComponent, CreateTaskComponent],
+  declarations: [AppComponent, CreateTaskComponent, HomeComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -32,7 +34,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatFormFieldModule,
     MatCardModule,
     MatIconModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatToolbarModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
