@@ -1,0 +1,27 @@
+.create-task{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s;
+    cursor: pointer;
+    .icon{
+        font-size: 50px;
+        color: #007bff;
+    }
+    .title{
+        font-size: 20px;
+        color: #007bff;
+        margin-top: 10px;
+    }
+    .description{
+        font-size: 16px;
+        color: #007bff;
+        margin-top: 10px;
+    }
+}
