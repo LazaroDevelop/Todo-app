@@ -1,3 +1,3 @@
 export enum TaskStatus{
-  COMPLETADAS, PENDIENTES
+  PENDING, COMPLETED
 }
