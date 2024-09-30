@@ -11,6 +11,7 @@ import { Task } from 'src/app/models/tasks/task';
 import { TaskStatus } from 'src/app/models/tasks/task-status';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { StoreTaskService } from './../../service/store-task.service';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 export const DATE_FORMAT = {
   parse: {
@@ -27,6 +28,7 @@ export const DATE_FORMAT = {
   styleUrls: ['./create-task.component.scss'],
 })
 export class CreateTaskComponent implements OnInit {
+  $isMobileView = false;
   form!: FormGroup;
   people: People[] = [];
   skills: string[] = [];
@@ -36,7 +38,8 @@ export class CreateTaskComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
-    private storeService: StoreTaskService
+    private storeService: StoreTaskService,
+    private breakpointObserver: BreakpointObserver
   ) {}
 
   ngOnInit() {
@@ -51,8 +54,14 @@ export class CreateTaskComponent implements OnInit {
       peopleSkills: this.fb.array(
         [],
         [Validators.required, this.minLengthArray(1)]
-      ),
+      )
     });
+
+    this.breakpointObserver
+      .observe([Breakpoints.Handset])
+      .subscribe((result) => {
+        this.$isMobileView = result.matches;
+      });
   }
 
   minLengthArray(min: number) {
@@ -87,6 +96,10 @@ export class CreateTaskComponent implements OnInit {
 
   dropSkill() {
     this.skills.splice(this.skillIndex, 1);
+    this.snackBar.open('Skill removed susccefully', 'Close', {
+      duration: 2000,
+      verticalPosition: 'bottom',
+    });
   }
 
   savePerson() {
@@ -121,7 +134,20 @@ export class CreateTaskComponent implements OnInit {
       age: peopleAge,
       skills: this.skills,
     };
-    this.people.push(person);
+
+    const exist = this.people.find((p) => p.fullName === person.fullName || p.fullName.includes(person.fullName));
+    if (exist) {
+      this.snackBar.open('The person already exists', 'Close', {
+        duration: 2000,
+        verticalPosition: 'bottom',
+      });
+      return;
+    }
+    this.people.push({...person});
+    this.snackBar.open('Person added successfully', 'Close', {
+      duration: 2000,
+      verticalPosition: 'bottom',
+    });
     this.skills = [];
     this.form.patchValue({
       peopleName: '',
@@ -132,11 +158,14 @@ export class CreateTaskComponent implements OnInit {
 
   dropPerson(index: number) {
     this.people.splice(index, 1);
+    this.snackBar.open('Person removed successfully from the task', 'Close', {
+      duration: 2000,
+      verticalPosition: 'bottom',
+    });
   }
 
   saveTask() {
-
-    if(this.people.length === 0){
+    if (this.people.length === 0) {
       this.snackBar.open('At least one person is required', 'Close', {
         duration: 2000,
         verticalPosition: 'bottom',
@@ -145,6 +174,15 @@ export class CreateTaskComponent implements OnInit {
     }
 
     const { name, endDate } = this.form.value;
+
+    if ((name as string).trim() === '') {
+      this.snackBar.open('The task name cannot be empty', 'Close', {
+        duration: 2000,
+        verticalPosition: 'bottom',
+      });
+      return;
+    }
+
     const status: TaskStatus = TaskStatus.PENDING;
     const task: Task = {
       id: Math.floor(Math.random() * 1000),
