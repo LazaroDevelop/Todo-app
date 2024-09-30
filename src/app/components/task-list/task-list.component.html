@@ -1,0 +1,159 @@
+<main>
+  <h2>Task List</h2>
+  <section class="filter-section">
+    <h3>Filters: </h3>
+    <mat-button-toggle-group
+      appearance="legacy"
+      name="fontStyle"
+      aria-label="Font Style"
+      class="mat-elevation-z1"
+      (change)="filterTasks($event)"
+    >
+      <mat-button-toggle value="all">All</mat-button-toggle>
+      <mat-button-toggle value="completed">Completed</mat-button-toggle>
+      <mat-button-toggle value="pending">Pending</mat-button-toggle>
+    </mat-button-toggle-group>
+  </section>
+
+  <section *ngIf="!$isMobileView">
+    <table
+      mat-table
+      [dataSource]="dataSource"
+      matSort
+      (matSortChange)="sortSomething($event)"
+    >
+      Number column
+      <ng-container matColumnDef="no.">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          sortActionDescription="Sort by number"
+        >
+          No.
+        </th>
+        <td mat-cell *matCellDef="let element; let i = index">
+          {{ getIndex(element) }}
+        </td>
+      </ng-container>
+
+      <!-- Task status -->
+      <ng-container matColumnDef="status">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          sortActionDescription="Sort by completed"
+        >
+          Completed
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <mat-checkbox
+            (click)="$event.stopPropagation()"
+            (change)="toggleStatus(element)"
+            [checked]="this.element.status === 1"
+          >
+          </mat-checkbox>
+        </td>
+      </ng-container>
+
+      <!-- Task name  -->
+      <ng-container matColumnDef="task_name">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          sortActionDescription="Sort by name"
+        >
+          Task name
+        </th>
+        <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+      </ng-container>
+
+      <!-- Task final date -->
+      <ng-container matColumnDef="final_date">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          sortActionDescription="Sort by final date"
+        >
+          End date
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.endDate | date : "dd/MM/yyyy" }}
+        </td>
+      </ng-container>
+
+      <!-- Asociated people -->
+      <ng-container matColumnDef="people">
+        <th mat-header-cell *matHeaderCellDef>Asociated People</th>
+        <td mat-cell *matCellDef="let element">
+          <ul>
+            <li class="people-li" *ngFor="let person of element.people">
+              {{ person.fullName }} ({{ person.age }} years old) - Skills:
+              {{ person.skills.join(", ") }}
+            </li>
+          </ul>
+        </td>
+      </ng-container>
+
+      <!-- Update task -->
+      <ng-container matColumnDef="update">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-raised-button color="primary" (click)="editTask(element)">
+            Edit
+            <mat-icon>edit</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="delete">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-raised-button color="warn" (click)="deleteTask(element)">
+            Delete
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </section>
+
+  <section *ngIf="$isMobileView">
+    <span class="nothing-to-show" *ngIf="tasksInMobile.length === 0">Nothing to show...</span>
+    <mat-card *ngFor="let task of tasksInMobile" class="task-card">
+      <mat-card-header>
+        <mat-card-title>{{ task.name }}</mat-card-title>
+        <mat-card-subtitle>End date: {{ task.endDate | date: 'dd/MM/yyyy' }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p>Asociated people:</p>
+        <ul>
+          <li *ngFor="let person of task.people">
+            - {{ person.fullName }} ({{ person.age }} years old) - Skills: {{ person.skills.join(", ") }}
+          </li>
+        </ul>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button color="primary" (click)="editTask(task)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-button color="warn" (click)="deleteTask(task)">
+          <mat-icon>delete</mat-icon>
+        </button>
+        <mat-checkbox
+          (click)="$event.stopPropagation()"
+          (change)="toggleStatus(task)"
+          [checked]="task.status === 1"
+        >
+          Completed
+        </mat-checkbox>
+      </mat-card-actions>
+    </mat-card>
+  </section>
+</main>
