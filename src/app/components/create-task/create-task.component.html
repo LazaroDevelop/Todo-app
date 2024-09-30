@@ -4,7 +4,7 @@
     <form [formGroup]="form" (ngSubmit)="saveTask()">
       <div>
         <mat-label>Task Name</mat-label>
-        <mat-form-field [appearance]="'outline'" class="form-title">
+        <mat-form-field class="form-title">
           <input matInput placeholder="Task Name" formControlName="name" />
           <mat-error *ngIf="form.get('name')?.hasError('required')">Task name is required</mat-error>
         </mat-form-field>
@@ -13,7 +13,6 @@
       <div>
         <mat-label>End Date</mat-label>
         <mat-form-field
-          [appearance]="'outline'"
           class="form-date"
           [floatLabel]="'always'"
         >
@@ -33,7 +32,7 @@
 
       <h3>Asociated People</h3>
       <div class="control-p">
-        <mat-form-field [appearance]="'outline'" class="form-p-name">
+        <mat-form-field class="form-p-name">
           <input
             matInput
             type="text"
@@ -44,7 +43,7 @@
           <mat-error *ngIf="form.get('peopleName')?.hasError('minlength')">Full name must be at least 5 characters long.</mat-error>
         </mat-form-field>
 
-        <mat-form-field [appearance]="'outline'" class="form-age">
+        <mat-form-field class="form-age">
           <input
             matInput
             type="number"
@@ -57,7 +56,7 @@
       </div>
 
       <div class="add-s-wrapper">
-        <mat-form-field [appearance]="'outline'" class="add-skill">
+        <mat-form-field class="add-skill">
           <input
             matInput
             type="text"
@@ -77,8 +76,10 @@
       </div>
 
       <div class="drop-s-wrapper">
-        <mat-form-field [appearance]="'outline'" class="skill-s">
+        <mat-form-field class="skill-s">
+          <mat-label>Select your skill</mat-label>
           <mat-select
+            name="peopleSkills"
             formControlName="peopleSkills"
             (valueChange)="onChange($event)"
           >
