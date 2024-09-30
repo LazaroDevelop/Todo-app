@@ -12,6 +12,8 @@ import { TaskStatus } from 'src/app/models/tasks/task-status';
 import { MatButtonToggleChange, MatButtonToggleModule } from '@angular/material/button-toggle';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { MatCardModule } from '@angular/material/card';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { People } from 'src/app/models/people/people';
 
 @Component({
   selector: 'app-task-list',
@@ -28,7 +30,8 @@ import { MatCardModule } from '@angular/material/card';
     MatIconModule,
     MatButtonModule,
     MatButtonToggleModule,
-    MatCardModule
+    MatCardModule,
+    MatSnackBarModule
   ],
 })
 export class TaskListComponent implements OnInit, AfterViewInit {
@@ -40,16 +43,28 @@ export class TaskListComponent implements OnInit, AfterViewInit {
     'task_name',
     'final_date',
     'people',
-    'update',
     'delete',
   ];
+  // displayedColumns: string[] = [
+  //   'no.',
+  //   'status',
+  //   'task_name',
+  //   'final_date',
+  //   'people',
+  //   'update',
+  //   'delete',
+  // ];
   dataSource = new MatTableDataSource(this.tasks);
   selection = new SelectionModel<Task>(true, []);
   $isMobileView = false;
 
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private storeService: StoreTaskService, private breakPoints: BreakpointObserver) {}
+  constructor(
+    private storeService: StoreTaskService,
+    private breakPoints: BreakpointObserver,
+    private snackBar: MatSnackBar
+  ) {}
 
   ngOnInit(): void {
     this.storeService.getTasks().subscribe((value) => {
@@ -84,6 +99,33 @@ export class TaskListComponent implements OnInit, AfterViewInit {
         : TaskStatus.COMPLETED;
     const index = this.tasks.findIndex((t) => t.id === task.id);
     this.tasks[index] = task;
+    this.storeService.updateAllTasks(this.tasks);
+    this.snackBar.open('Task status updated', 'Close', {
+      duration: 2000,
+      verticalPosition: 'bottom',
+    });
+  }
+
+  addPeople(){
+
+  }
+
+  dropPeople(person: People){
+    if(this.tasks.length === 1){
+      this.snackBar.open('You cannot remove the last person from the task', 'Close', {
+        duration: 2000,
+        verticalPosition: 'bottom',
+      });
+      return;
+    }
+    const index = this.tasks.findIndex((t) => t.people.includes(person));
+    this.tasks[index].people = this.tasks[index].people.filter((p) => p !== person);
+    this.storeService.updateAllTasks(this.tasks);
+    this.snackBar.open('Person removed from task', 'Close', {
+      duration: 2000,
+      verticalPosition: 'bottom',
+    });
+
   }
 
   editTask(task: Task) {
@@ -94,19 +136,21 @@ export class TaskListComponent implements OnInit, AfterViewInit {
   }
 
   deleteTask(task: Task) {
-    const index = this.tasks.findIndex((t) => t.id === task.id);
-    this.tasks.splice(index, 1);
-    this.storeService.deleteTask(task);
-    this.dataSource = new MatTableDataSource(this.tasks);
+    const deleteTasks: Task[] = this.storeService.deleteTask(task);
+    this.dataSource = new MatTableDataSource(deleteTasks);
+    this.snackBar.open('Task deleted', 'Close', {
+      duration: 2000,
+      verticalPosition: 'bottom',
+    });
   }
 
-  filterTasks(event: MatButtonToggleChange){
+  filterTasks(event: MatButtonToggleChange) {
     const { value } = event;
-    if(value === 'all' && !this.$isMobileView){
+    if (value === 'all' && !this.$isMobileView) {
       this.dataSource = new MatTableDataSource(this.tasks);
     } else {
       let statusValue: TaskStatus;
-      if(value === 'completed'){
+      if (value === 'completed') {
         statusValue = TaskStatus.COMPLETED;
       } else {
         statusValue = TaskStatus.PENDING;
@@ -114,16 +158,16 @@ export class TaskListComponent implements OnInit, AfterViewInit {
       const filteredTasks = this.tasks.filter((t) => t.status === statusValue);
       this.dataSource = new MatTableDataSource(filteredTasks);
     }
-    if(value === 'all' && this.$isMobileView){
+    if (value === 'all' && this.$isMobileView) {
       this.tasksInMobile = this.tasks;
     } else {
-       let statusValue: TaskStatus;
-       if (value === 'completed') {
-         statusValue = TaskStatus.COMPLETED;
-       } else {
-         statusValue = TaskStatus.PENDING;
-       }
-       this.tasksInMobile = this.tasks.filter((t) => t.status === statusValue);
+      let statusValue: TaskStatus;
+      if (value === 'completed') {
+        statusValue = TaskStatus.COMPLETED;
+      } else {
+        statusValue = TaskStatus.PENDING;
+      }
+      this.tasksInMobile = this.tasks.filter((t) => t.status === statusValue);
     }
   }
 }

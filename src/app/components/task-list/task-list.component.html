@@ -1,7 +1,7 @@
 <main>
   <h2>Task List</h2>
   <section class="filter-section">
-    <h3>Filters: </h3>
+    <h3>Filters:</h3>
     <mat-button-toggle-group
       appearance="legacy"
       name="fontStyle"
@@ -15,6 +15,7 @@
     </mat-button-toggle-group>
   </section>
 
+  <!-- Website Section -->
   <section *ngIf="!$isMobileView">
     <table
       mat-table
@@ -88,26 +89,30 @@
       <!-- Asociated people -->
       <ng-container matColumnDef="people">
         <th mat-header-cell *matHeaderCellDef>Asociated People</th>
-        <td mat-cell *matCellDef="let element">
+        <td mat-cell *matCellDef="let element" class="people">
+          <button type="button" mat-icon-button>
+            <mat-icon color="accent">add</mat-icon>
+          </button>
           <ul>
             <li class="people-li" *ngFor="let person of element.people">
               {{ person.fullName }} ({{ person.age }} years old) - Skills:
               {{ person.skills.join(", ") }}
+              <mat-icon color="warn" *ngIf="element.people.length !== 1">delete</mat-icon>
             </li>
           </ul>
         </td>
       </ng-container>
 
       <!-- Update task -->
-      <ng-container matColumnDef="update">
+      <!-- <ng-container matColumnDef="update">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let element">
           <button mat-raised-button color="primary" (click)="editTask(element)">
-            Edit
+            Update
             <mat-icon>edit</mat-icon>
           </button>
         </td>
-      </ng-container>
+      </ng-container> -->
 
       <ng-container matColumnDef="delete">
         <th mat-header-cell *matHeaderCellDef></th>
@@ -124,35 +129,43 @@
     </table>
   </section>
 
+  <!-- Mobile Section -->
   <section *ngIf="$isMobileView">
-    <span class="nothing-to-show" *ngIf="tasksInMobile.length === 0">Nothing to show...</span>
+    <span class="nothing-to-show" *ngIf="tasksInMobile.length === 0">
+      Nothing to show...
+    </span>
     <mat-card *ngFor="let task of tasksInMobile" class="task-card">
-      <mat-card-header>
-        <mat-card-title>{{ task.name }}</mat-card-title>
-        <mat-card-subtitle>End date: {{ task.endDate | date: 'dd/MM/yyyy' }}</mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content>
-        <p>Asociated people:</p>
-        <ul>
-          <li *ngFor="let person of task.people">
-            - {{ person.fullName }} ({{ person.age }} years old) - Skills: {{ person.skills.join(", ") }}
-          </li>
-        </ul>
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-button color="primary" (click)="editTask(task)">
-          <mat-icon>edit</mat-icon>
-        </button>
-        <button mat-button color="warn" (click)="deleteTask(task)">
-          <mat-icon>delete</mat-icon>
-        </button>
-        <mat-checkbox
+      <mat-card-header class="mc-header">
+        <mat-card-title>
+          <mat-checkbox
           (click)="$event.stopPropagation()"
           (change)="toggleStatus(task)"
           [checked]="task.status === 1"
         >
-          Completed
         </mat-checkbox>
+          <span>{{ task.name }} - {{ task.endDate | date : "dd/MM/yyyy" }}</span>
+        </mat-card-title>
+        <mat-card-subtitle>
+          <h3 [style]="{'margin-left':'10px'}">Asociated people:</h3>
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <span class="people-li" *ngFor="let person of task.people">
+          {{ person.fullName }} ({{ person.age }} years old) - Skills:
+          {{ person.skills.join(", ") }}
+          <mat-icon color="warn" *ngIf="task.people.length !== 1" (click)="dropPeople(person)">delete</mat-icon>
+        </span>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-icon-button type="button" color="accent" (click)="addPeople()">
+          <mat-icon>add</mat-icon>
+        </button>
+        <button mat-icon-button color="primary" (click)="editTask(task)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" (click)="deleteTask(task)">
+          <mat-icon>delete</mat-icon>
+        </button>
       </mat-card-actions>
     </mat-card>
   </section>
