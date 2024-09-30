@@ -10,6 +10,16 @@ import { People } from 'src/app/models/people/people';
 import { Task } from 'src/app/models/tasks/task';
 import { TaskStatus } from 'src/app/models/tasks/task-status';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { StoreTaskService } from './../../service/store-task.service';
+
+export const DATE_FORMAT = {
+  parse: {
+    dateInput: 'DD/MM/YYYY',
+  },
+  display: {
+    dateInput: 'DD/MM/YYYY',
+  },
+};
 
 @Component({
   selector: 'app-create-task',
@@ -23,7 +33,11 @@ export class CreateTaskComponent implements OnInit {
   skillControl = new FormControl('');
   skillIndex: number = 0;
 
-  constructor(private fb: FormBuilder, private snackBar: MatSnackBar) {}
+  constructor(
+    private fb: FormBuilder,
+    private snackBar: MatSnackBar,
+    private storeService: StoreTaskService
+  ) {}
 
   ngOnInit() {
     this.form = new FormGroup({
@@ -59,7 +73,11 @@ export class CreateTaskComponent implements OnInit {
     if (skill) {
       this.skills.push(skill);
       this.skillControl.reset();
-    }else {
+      this.snackBar.open('Skill added susccefully', 'Close', {
+        duration: 2000,
+        verticalPosition: 'bottom',
+      });
+    } else {
       this.snackBar.open('The skill cannot be empty', 'Close', {
         duration: 2000,
         verticalPosition: 'bottom',
@@ -72,7 +90,7 @@ export class CreateTaskComponent implements OnInit {
   }
 
   savePerson() {
-    if(this.skills.length === 0){
+    if (this.skills.length === 0) {
       this.snackBar.open('At least one skill is required', 'Close', {
         duration: 2000,
         verticalPosition: 'bottom',
@@ -82,19 +100,19 @@ export class CreateTaskComponent implements OnInit {
 
     const { peopleName, peopleAge, peopleSkills } = this.form.value;
 
-    if((peopleName as string).trim() === ''){
+    if ((peopleName as string).trim() === '') {
       this.snackBar.open('The person name cannot be empty', 'Close', {
         duration: 2000,
-        verticalPosition: 'bottom'
-      })
+        verticalPosition: 'bottom',
+      });
       return;
     }
 
-    if((peopleAge as number) < 18){
+    if ((peopleAge as number) < 18) {
       this.snackBar.open('The person age must be greater than 18', 'Close', {
         duration: 2000,
-        verticalPosition: 'bottom'
-      })
+        verticalPosition: 'bottom',
+      });
       return;
     }
 
@@ -117,15 +135,31 @@ export class CreateTaskComponent implements OnInit {
   }
 
   saveTask() {
+
+    if(this.people.length === 0){
+      this.snackBar.open('At least one person is required', 'Close', {
+        duration: 2000,
+        verticalPosition: 'bottom',
+      });
+      return;
+    }
+
     const { name, endDate } = this.form.value;
     const status: TaskStatus = TaskStatus.PENDING;
     const task: Task = {
+      id: Math.floor(Math.random() * 1000),
       name,
       endDate,
       status,
       people: this.people,
     };
 
-    console.log(task);
+    this.storeService.addTask(task);
+    this.form.reset();
+    this.people = [];
+    this.snackBar.open('Task added successfully', 'Close', {
+      duration: 2000,
+      verticalPosition: 'bottom',
+    });
   }
 }
