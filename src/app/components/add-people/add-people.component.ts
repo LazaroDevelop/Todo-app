@@ -25,7 +25,7 @@ export class AddPeopleComponent implements OnInit {
     this.peopleForm = new FormGroup({
       name: new FormControl('', [Validators.required, Validators.minLength(5)]),
       age: new FormControl(0, [Validators.required, Validators.min(18)]),
-      skill: new FormControl('', [Validators.required]),
+      skill: new FormControl(''),
     });
 
     this.breakpointObserver
@@ -65,7 +65,7 @@ export class AddPeopleComponent implements OnInit {
 
   addSkill() {
     const skill = this.peopleForm.get('skill')?.value;
-    if (skill) {
+    if (skill && skill.trim() !== '') {
       this.skills.push(skill);
       this.peopleForm.get('skill')?.reset();
       this.snackBar.open('Skill added', 'Close', {

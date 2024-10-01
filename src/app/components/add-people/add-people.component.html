@@ -39,9 +39,6 @@
         formControlName="skill"
         placeholder="Insert your skill"
       />
-      <mat-error *ngIf="peopleForm.get('skill')?.hasError('required')"
-        >Skill is required</mat-error
-      >
     </mat-form-field>
     <button
       *ngIf="!$isMobileView; else addSkillBtn"
