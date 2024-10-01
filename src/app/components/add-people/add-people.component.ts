@@ -25,7 +25,7 @@ export class AddPeopleComponent implements OnInit {
     this.peopleForm = new FormGroup({
       name: new FormControl('', [Validators.required, Validators.minLength(5)]),
       age: new FormControl(0, [Validators.required, Validators.min(18)]),
-      skill: new FormControl(''),
+      skill: new FormControl('', [Validators.required]),
     });
 
     this.breakpointObserver
@@ -41,6 +41,13 @@ export class AddPeopleComponent implements OnInit {
   }
 
   savePerson() {
+    if(this.skills.length === 0) {
+      this.snackBar.open('Please add at least one skill', 'Close', {
+        duration: 2000,
+        verticalPosition: 'bottom',
+      });
+      return;
+    }
     if (this.peopleForm.valid) {
       const {name, age} = this.peopleForm.value;
       this.dialogRef.close({name, age, skills: this.skills});
