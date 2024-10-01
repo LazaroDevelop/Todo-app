@@ -110,7 +110,6 @@ export class TaskListComponent implements OnInit, AfterViewInit {
   }
 
   triggerDialog(id: number) {
-    console.log('triggered');
     const dialogRef = this.dialog.open(AddPeopleComponent, {
       width: '600px',
     });
