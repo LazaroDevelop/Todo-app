@@ -80,6 +80,7 @@
         <button
           *ngIf="!$isMobileView; else addSkillBtn"
           class="add-s-btn"
+          matTooltip="Add skill"
           mat-raised-button
           color="primary"
           type="button"
@@ -89,6 +90,7 @@
         </button>
         <ng-template #addSkillBtn>
           <button
+          matTooltip="Add skill"
           class="add-s-btn-mw"
           type="button"
           mat-icon-button
@@ -118,6 +120,7 @@
           *ngIf="!$isMobileView; else dropSkillBtn"
           class="drop-s-btn"
           mat-stroked-button
+          matTooltip="Drop skill"
           color="primary"
           type="button"
           (click)="dropSkill()"
@@ -126,6 +129,7 @@
         </button>
         <ng-template #dropSkillBtn>
           <button
+          matTooltip="Drop skill"
           type="button"
           class="drop-s-btn-mw"
           mat-icon-button
