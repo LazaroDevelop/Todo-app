@@ -20,6 +20,8 @@ import { HomeComponent } from './components/home/home/home.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
+import { MatDialogModule } from '@angular/material/dialog';
+import { AddPeopleComponent } from './components/add-people/add-people.component';
 
 
 @NgModule({
@@ -28,6 +30,7 @@ import { MatListModule } from '@angular/material/list';
     CreateTaskComponent,
     HomeComponent,
     SidenavComponent,
+    AddPeopleComponent
   ],
   imports: [
     BrowserModule,
@@ -46,6 +49,8 @@ import { MatListModule } from '@angular/material/list';
     MatToolbarModule,
     MatSidenavModule,
     MatListModule,
+    MatDialogModule,
+    MatSnackBarModule
   ],
   providers: [{ provide: MAT_DATE_FORMATS, useValue: DATE_FORMAT }],
   bootstrap: [AppComponent],
