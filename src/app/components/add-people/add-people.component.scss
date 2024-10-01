@@ -1,0 +1,88 @@
+.form-control {
+  margin: 16px auto;
+  padding: 16px;
+  max-width: 800px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-p-name {
+  width: 70%;
+  padding: 5px 10px 5px 0px;
+}
+
+.form-p-name-mw {
+  width: 100%;
+  padding: 5px 5px 5px 0px;
+}
+
+.form-age {
+  width: 30%;
+  padding: 5px 5px 5px 0px;
+}
+
+.form-age-mw{
+  width: 100%;
+  padding: 5px 5px 5px 0px;
+}
+
+.add-s-wrapper {
+  gap: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.add-skill {
+  width: 70%;
+}
+
+.add-skill-mw{
+  width: 100%;
+}
+
+.add-s-btn {
+  width: 30%;
+  height: 56px;
+  font-size: 16px;
+}
+
+.add-s-btn-mw {
+  margin: 5px;
+}
+
+
+.drop-s-wrapper {
+  gap: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.skill-s {
+  width: 70%;
+}
+
+.skill-s-mw{
+  width: 100%;
+}
+
+.drop-s-btn {
+  width: 30%;
+  height: 56px;
+  font-size: 16px;
+}
+
+.drop-s-btn-mw {
+  margin: 5px;
+}
+
+.btn-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 100px;
+  margin-top: 30px;
+}
+
+.btn-wrapper button {
+  height: 64px;
+  font-size: 16px;
+}
