@@ -22,6 +22,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatDialogModule } from '@angular/material/dialog';
 import { AddPeopleComponent } from './components/add-people/add-people.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 
 @NgModule({
@@ -50,7 +51,8 @@ import { AddPeopleComponent } from './components/add-people/add-people.component
     MatSidenavModule,
     MatListModule,
     MatDialogModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatTooltipModule
   ],
   providers: [{ provide: MAT_DATE_FORMATS, useValue: DATE_FORMAT }],
   bootstrap: [AppComponent],
