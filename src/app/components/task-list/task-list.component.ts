@@ -14,6 +14,9 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { MatCardModule } from '@angular/material/card';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { People } from 'src/app/models/people/people';
+import {MatDialog, MatDialogModule} from '@angular/material/dialog';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { AddPeopleComponent } from '../add-people/add-people.component';
 
 @Component({
   selector: 'app-task-list',
@@ -31,7 +34,9 @@ import { People } from 'src/app/models/people/people';
     MatButtonModule,
     MatButtonToggleModule,
     MatCardModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatDialogModule,
+    MatTooltipModule,
   ],
 })
 export class TaskListComponent implements OnInit, AfterViewInit {
@@ -45,15 +50,6 @@ export class TaskListComponent implements OnInit, AfterViewInit {
     'people',
     'delete',
   ];
-  // displayedColumns: string[] = [
-  //   'no.',
-  //   'status',
-  //   'task_name',
-  //   'final_date',
-  //   'people',
-  //   'update',
-  //   'delete',
-  // ];
   dataSource = new MatTableDataSource(this.tasks);
   selection = new SelectionModel<Task>(true, []);
   $isMobileView = false;
@@ -63,7 +59,8 @@ export class TaskListComponent implements OnInit, AfterViewInit {
   constructor(
     private storeService: StoreTaskService,
     private breakPoints: BreakpointObserver,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -106,19 +103,36 @@ export class TaskListComponent implements OnInit, AfterViewInit {
     });
   }
 
-  addPeople(){
+  triggerDialog(id: number){
+    console.log('triggered');
+    const dialogRef = this.dialog.open(AddPeopleComponent, {
+      width: '600px',
+    });
 
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        const people: People = {fullName: result.name, age: result.age,skills: result.skills};
+        const index = this.tasks.findIndex((t) => t.id === id);
+        this.tasks[index].people.push(people);
+        this.storeService.updateAllTasks(this.tasks);
+        this.snackBar.open('Person added to task', 'Close', {
+          duration: 2000,
+          verticalPosition: 'bottom',
+        });
+    }});
   }
 
   dropPeople(person: People){
-    if(this.tasks.length === 1){
+    const index = this.tasks.findIndex((t) => t.people.includes(person));
+    if(this.tasks[index].people.length === 1){
       this.snackBar.open('You cannot remove the last person from the task', 'Close', {
         duration: 2000,
         verticalPosition: 'bottom',
       });
       return;
     }
-    const index = this.tasks.findIndex((t) => t.people.includes(person));
+
     this.tasks[index].people = this.tasks[index].people.filter((p) => p !== person);
     this.storeService.updateAllTasks(this.tasks);
     this.snackBar.open('Person removed from task', 'Close', {
@@ -126,13 +140,6 @@ export class TaskListComponent implements OnInit, AfterViewInit {
       verticalPosition: 'bottom',
     });
 
-  }
-
-  editTask(task: Task) {
-    const updateTask = this.storeService.updateTask(task);
-    const index = this.tasks.findIndex((t) => t.id === updateTask.id);
-    this.tasks[index] = updateTask;
-    this.dataSource = new MatTableDataSource(this.tasks);
   }
 
   deleteTask(task: Task) {
