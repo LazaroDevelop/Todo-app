@@ -1,0 +1,195 @@
+.mat-card {
+  margin: 16px auto;
+  padding: 16px;
+  max-width: 800px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.form-group > div {
+  flex: 1 1 100%;
+}
+
+.form-group .form-title,
+.form-group .form-date,
+.form-group .form-p-name,
+.form-group .form-age,
+.form-group .add-skill,
+.form-group .skill-s {
+  flex: 1 1 calc(50% - 16px);
+}
+
+.btn-wrapper {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+}
+
+@media (max-width: 600px) {
+  .form-group .form-title,
+  .form-group .form-date,
+  .form-group .form-p-name,
+  .form-group .form-age,
+  .form-group .add-skill,
+  .form-group .skill-s {
+    flex: 1 1 100%;
+  }
+
+  .btn-wrapper {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
+.mat-card-title {
+  text-align: center;
+  padding: 15px;
+}
+
+.form-title {
+  width: 100%;
+}
+
+.form-date {
+  width: 100%;
+}
+
+h3 {
+  text-align: center;
+}
+
+.form-p-name {
+  width: 70%;
+  padding: 5px 10px 5px 0px;
+}
+
+.form-p-name-mw {
+  width: 100%;
+  padding: 5px 5px 5px 0px;
+}
+
+.form-age {
+  width: 30%;
+  padding: 5px 5px 5px 0px;
+}
+
+.form-age-mw{
+  width: 100%;
+  padding: 5px 5px 5px 0px;
+}
+
+.add-s-wrapper {
+  gap: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.add-skill {
+  width: 70%;
+}
+
+.add-skill-mw{
+  width: 100%;
+}
+
+.add-s-btn {
+  width: 30%;
+  height: 56px;
+  font-size: 16px;
+}
+
+.add-s-btn-mw {
+  margin: 5px;
+}
+
+
+.drop-s-wrapper {
+  gap: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.skill-s {
+  width: 70%;
+}
+
+.skill-s-mw{
+  width: 100%;
+}
+
+.drop-s-btn {
+  width: 30%;
+  height: 56px;
+  font-size: 16px;
+}
+
+.drop-s-btn-mw {
+  margin: 5px;
+}
+
+.people-actions {
+  gap: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  margin-bottom: 20px;
+}
+
+.people-actions button {
+  width: 100%;
+  height: 52px;
+  font-size: 16px;
+}
+
+.btn-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 100px;
+  margin-top: 30px;
+}
+
+.btn-wrapper button {
+  height: 64px;
+  font-size: 16px;
+}
+
+.people-block {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.drop-p-btn {
+  height: 56px;
+  font-size: 16px;
+}
+
+.drop-d:hover {
+  transition: ease-in-out 0.3s;
+  transform: scale(1.1);
+}
+
+.save-people {
+  width: 300px;
+}
+
+.people-li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin: 5px;
+}
