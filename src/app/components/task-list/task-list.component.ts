@@ -40,6 +40,9 @@ import { AddPeopleComponent } from '../add-people/add-people.component';
     MatSnackBarModule,
     MatDialogModule,
     MatTooltipModule,
+    MatSnackBarModule,
+    MatDialogModule,
+    MatTooltipModule,
   ],
 })
 export class TaskListComponent implements OnInit, AfterViewInit {
